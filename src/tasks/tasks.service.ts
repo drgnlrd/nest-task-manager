@@ -18,13 +18,13 @@ export class TasksService {
   constructor(private prisma: PrismaService) {}
 
   async getAllTasks(): Promise<Task[]> {
-    return this.prisma.task.findMany();
+    return await this.prisma.task.findMany();
   }
 
   async getTasksWithFilters(filterDto: GetTasksFilterDto): Promise<Task[]> {
     const { status, search } = filterDto;
 
-    return this.prisma.task.findMany({
+    return await this.prisma.task.findMany({
       where: {
         OR: [
           {
@@ -51,7 +51,7 @@ export class TasksService {
   }
 
   async getTaskById(id: string): Promise<Task | null> {
-    const found = this.prisma.task.findUnique({
+    const found = await this.prisma.task.findUnique({
       where: { id: id },
     });
 
@@ -72,13 +72,13 @@ export class TasksService {
       status: TaskStatus.OPEN,
     };
 
-    return this.prisma.task.create({
+    return await this.prisma.task.create({
       data: task,
     });
   }
 
   async updateStatusById(id: string, status: TaskStatus): Promise<Task> {
-    return this.prisma.task.update({
+    return await this.prisma.task.update({
       where: { id: id },
       data: {
         status: status,
@@ -87,7 +87,7 @@ export class TasksService {
   }
 
   async deleteTask(id: string): Promise<Task> {
-    return this.prisma.task.delete({
+    return await this.prisma.task.delete({
       where: { id: id },
     });
   }
