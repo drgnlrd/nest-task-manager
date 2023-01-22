@@ -62,7 +62,7 @@ export class TasksService {
     return found;
   }
 
-  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     const { title, description } = createTaskDto;
 
     const task = {
@@ -77,7 +77,7 @@ export class TasksService {
     });
   }
 
-  updateStatusById(id: string, status: TaskStatus): Promise<Task> {
+  async updateStatusById(id: string, status: TaskStatus): Promise<Task> {
     return this.prisma.task.update({
       where: { id: id },
       data: {
@@ -86,7 +86,7 @@ export class TasksService {
     });
   }
 
-  deleteTask(id: string): Promise<Task> {
+  async deleteTask(id: string): Promise<Task> {
     return this.prisma.task.delete({
       where: { id: id },
     });
