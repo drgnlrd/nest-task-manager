@@ -9,6 +9,7 @@ import { Task, TaskStatus } from '@prisma/client';
 // Dto Imports
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateStatusByIdDto } from './dto/update-status-by-id.dto';
 
 // Other Imports
 import { v4 as uuid } from 'uuid';
@@ -66,10 +67,8 @@ export class TasksService {
     const { title, description } = createTaskDto;
 
     const task = {
-      id: uuid(),
       title,
       description,
-      status: TaskStatus.OPEN,
     };
 
     return await this.prisma.task.create({
@@ -77,7 +76,11 @@ export class TasksService {
     });
   }
 
-  async updateStatusById(id: string, status: TaskStatus): Promise<Task> {
+  async updateStatusById(
+    updateStatusByIdDto: UpdateStatusByIdDto,
+  ): Promise<Task> {
+    const { id, status } = updateStatusByIdDto;
+
     return await this.prisma.task.update({
       where: { id: id },
       data: {

@@ -19,6 +19,7 @@ import { Task as TaskModel, TaskStatus } from '@prisma/client';
 // Dto Imports
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { UpdateStatusByIdDto } from './dto/update-status-by-id.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -48,7 +49,8 @@ export class TasksController {
     @Param('id') id: string,
     @Body('status') status: TaskStatus,
   ): Promise<TaskModel> {
-    return this.tasksService.updateStatusById(id, status);
+    const updateStatusParams: UpdateStatusByIdDto = { id, status };
+    return this.tasksService.updateStatusById(updateStatusParams);
   }
 
   @Delete('/:id')
